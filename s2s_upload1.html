@@ -1,0 +1,189 @@
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	</head>
+	<style>
+		a{text-decoration:none}
+		*:focus { outline: none;}
+		body{
+			background:url(bg3.jpg) center fixed;
+			background-size:cover;
+		}
+		#top{
+			position:fixed;
+			top:0%;
+			left:0%;
+			width:100%;
+			height:75px;
+			background-color:#FFF;
+			z-index: 5;
+		}
+		#logo{
+			position:fixed;
+			top:8px;
+			left:0%;
+		}
+		#menu{
+			position:fixed;
+			top:8px;
+			right:0%;
+		}
+		#bar{
+			position:fixed;
+			top:75px;
+			left:0%;
+			background-color:#000;
+			width:100%;
+			height:40px;
+			z-index: 5;
+		}
+		#content{
+			position:absolute;
+			top:150px;
+			left:50%;
+			width:1000px;
+			margin-left:-500px;
+		}
+		.fill{
+			width:600px;
+			height:40px;
+			text-align:center;
+			padding:5px;
+			font-size:25px;
+			font-weight:bold;
+			font-family:Microsoft JhengHei;
+			color:#000;
+			
+			background-color:#FFF;
+			border-style:hidden;
+			border-radius:5px;
+			box-shadow : 2px 2px 4px #000;
+		}
+		.fill2{
+			width:600px;
+			height:180px;
+			resize : none;
+			font-size:25px;
+			font-weight:bold;
+			font-family:Microsoft JhengHei;
+			color:#000;
+			
+			background-color:#FFF;
+			border-style:hidden;
+			border-radius:5px;
+			box-shadow : 2px 2px 4px #000;
+		}
+		.fill3{
+			width:200px;
+			height:40px;
+			resize : none;
+			font-size:25px;
+			font-weight:bold;
+			font-family:Microsoft JhengHei;
+			color:#000;
+			text-align:center;
+			background-color:#FFF;
+			border-style:hidden;
+			border-radius:5px;
+			box-shadow : 2px 2px 4px #000;
+		}
+		.select{
+			height:35px;
+			width:600px;
+			color: #000;
+			font-size: 25px;
+			font-weight:bold;
+			font-family:Microsoft JhengHei;
+			padding:5px;
+			
+			background-color:#FFF;
+			border-style:hidden;
+			border-radius:5px;
+			box-shadow : 2px 2px 4px #000;
+		}
+		.type {
+		    height: 30px;
+		    width: 100px;
+		    background-color: #FFF;
+			
+			color: #000;
+		    font-size: 25px;
+			font-weight:bold;
+			font-family:Microsoft JhengHei;
+			
+			border-style:solid;
+		}
+		.up_btn{
+			background-color:#FFF;
+			width:150px;
+			text-align:center;
+			padding:5px;
+			color: #000;
+			font-size:30px;
+			font-weight:bold;
+			border-style:hidden;
+			border-radius:10px;
+			box-shadow : 2px 2px 4px #808080;
+		}
+		.up_btn:active{
+			background-color:#000;
+			color: #fff;
+		}
+		#empty{
+			height:100px;
+			width:600px;
+		}
+	</style>
+	<body>
+		<div id = "top">
+			<div id = "logo">
+				<img src = "logo_small.png">
+			</div>
+			<div id = "menu">
+				<img src = "sale.png">
+				<img src = "person.png">
+				<img src = "logout.png">
+			</div>
+		</div>
+		<div id = "bar">
+		</div>
+		<form action="s2s_upload.php" method="post">
+		<div id = "content" align = "center">
+			<div id = "item_info">
+				<input class = "fill" type = "text" placeholder="*商品名稱" name="item_name" maxLength="32"><br><br>
+				<input class = "fill" type = "text" placeholder="*預期價格(NT)" name="item_price" maxLength="32"><br><br>
+				<div class = "select">
+					*商品種類 : 
+					<select class = "type"name="item_class">
+						<option value="1" selected>1</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+					</select>
+				</div><br>
+				<div class = "select">
+					*交易方式 : 
+					<select class = "type"name="item_trade">
+						<option value="1" selected>面交</option>
+						<option value="2">郵寄</option>
+					</select>
+				</div><br>
+				<textarea class = "fill2" placeholder="面交地點(若交易方式為面交必填)" maxlength = "512" name = "location"></textarea><br><br>
+				<textarea class = "fill2" placeholder="*保存情況" maxlength = "512" name = "item_situation"></textarea><br><br>
+				<textarea class = "fill2" placeholder="補充說明" maxlength = "512" name = "item_ps"></textarea><br><br>
+				<div>
+					<span title = "為你的商品貼上標籤 方便顧客搜尋 增加曝光度!">
+					<input class = "fill3" type = "text" placeholder="TAG1" name="tag1" maxLength="16">
+					<input class = "fill3" type = "text" placeholder="TAG2" name="tag2" maxLength="16">
+					<input class = "fill3" type = "text" placeholder="TAG3" name="tag3" maxLength="16">
+					</span>
+				</div><br>
+				<input type = "submit" id = "start" value = "Next" class = "up_btn">
+				<div id = "empty">
+				</div>
+			</div>
+		</div>
+		</form>
+	</body>
+</html>	

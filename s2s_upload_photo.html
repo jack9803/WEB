@@ -1,0 +1,305 @@
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	</head>
+	<style>
+		a{text-decoration:none}
+		*:focus { outline: none;}
+		body{
+			background:url(bg3.jpg) center fixed;
+			background-size:cover;
+		}
+		#top{
+			position:fixed;
+			top:0%;
+			left:0%;
+			width:100%;
+			height:75px;
+			background-color:#FFF;
+			z-index: 5;
+		}
+		#logo{
+			position:fixed;
+			top:8px;
+			left:0%;
+		}
+		#menu{
+			position:fixed;
+			top:8px;
+			right:0%;
+		}
+		#bar{
+			position:fixed;
+			top:75px;
+			left:0%;
+			background-color:#000;
+			width:100%;
+			height:40px;
+			z-index: 5;
+		}
+		#content{
+			position:absolute;
+			top:150px;
+			left:50%;
+			width:1000px;
+			margin-left:-500px;
+		}
+		.photo{
+			width:800px;
+			height:400px;
+			background-color: #FFF;
+			
+			text-align:center;
+			color: #000;
+			font-size: 25px;
+			font-weight:bold;
+			font-family:Microsoft JhengHei;
+			
+			background-color:#FFF;
+			border-style:hidden;
+			border-radius:5px;
+			box-shadow : 2px 2px 4px #000;
+		}
+		#drop{
+			width:800px;
+			height:300px;
+			text-align:center;
+			background-color:#808080;
+			border-style:dashed;
+			border-width:1px;
+		}
+		.active{
+			border: 1px dashed red !important;
+		}
+		#photo_btn{
+			position: relative;
+			overflow: hidden;
+			margin-top:25px;
+			width:150px;
+			height:30px;
+			
+			background-color:#cc0000;
+			text-align:center;
+			color: #FFF;
+			font-size: 20px;
+			font-weight:bold;
+			font-family:Microsoft JhengHei;
+			
+			border-style:hidden;
+			border-radius:5px;
+			box-shadow : 2px 2px 4px #000;
+		}
+		#fileupload{
+			position:absolute;
+			top: 0;
+			right: 0;
+			margin: 0;
+			padding: 0;
+			cursor: pointer;
+			opacity: 0;
+		}
+		.pre{
+			background-color:#FFF;
+			width:150px;
+			height:80px;
+			
+			text-align:center;
+			color: #000;
+			font-size: 20px;
+			font-weight:bold;
+			font-family:Microsoft JhengHei;
+			
+			border-style:solid;
+			border-width:1px;
+			border-color:#000;
+			border-top:hidden;
+			border-right:hidden;
+			border-left:hidden;
+		}
+		.cancel_btn{
+			width:80px;
+			height:30px;
+			
+			background-color:#cc0000;
+			text-align:center;
+			color: #FFF;
+			font-size: 20px;
+			font-weight:bold;
+			font-family:Microsoft JhengHei;
+			
+			border-style:hidden;
+			border-radius:5px;
+			box-shadow : 2px 2px 4px #000;
+		}
+		.up_btn{
+			background-color:#FFF;
+			width:150px;
+			text-align:center;
+			padding:5px;
+			color: #000;
+			font-size:30px;
+			font-weight:bold;
+			border-style:hidden;
+			border-radius:10px;
+			box-shadow : 2px 2px 4px #808080;
+		}
+		.up_btn:active{
+			background-color:#000;
+			color: #fff;
+		}
+	</style>
+	<script src="js/jquery-2.1.0.min.js"></script>
+	<script src="js/jquery.ui.widget.js"></script>
+	<script src="js/jquery.iframe-transport.js"></script>
+	<script src="js/jquery.fileupload.js"></script>.
+
+	<script>
+	counter = 0;
+	max = 5;
+	$(document).ready(function(){   
+		$('#fileupload').fileupload({
+			dropZone: $('#drop'),	//拖曳上傳區域
+	    	url: 'ajax/upload.php',		//上傳處理的PHP
+	        dataType: 'json',
+			maxNumberOfFiles: 5,
+
+	        //將要上傳的資料顯示
+	        add: function (e, data) {
+				if(counter < max){
+					counter++;
+					//	var tpl = $('<div class="working"><span class="pro" /><span class="info"></span><span class="ctrl">取消</span></div>');
+					var tpl = $('<tr><td class = "pre"><canvas width="128px" height="64px" id="'+ data.files[0].name + '" style="border-style:hidden;"></canvas></td><td class = "pre">'+ data.files[0].name + '</td><td class = "pre">'+ data.files[0].size +' bytes</td><td class = "pre"><input type = "button" value = "cancel" class = "cancel_btn"></td></tr>');
+					data.context = tpl.appendTo($(".item"));
+					
+					tpl.find('.cancel_btn').click(function(){
+						tpl.fadeOut(function(){
+							tpl.remove();
+						});
+						counter--;
+					});
+					
+					if (data.files[0]){
+						var reader = new FileReader();
+						reader.readAsDataURL(data.files[0]);
+						var tmp = new Image();
+						reader.onload = function(){
+						  /*var dataURL = reader.result;
+						  var output = document.getElementById(data.files[0].name);
+						  output.src = dataURL;*/
+						  tmp.src = reader.result;
+						  tmp.onload = function(){
+							  var w, h;
+							  w = tmp.width;
+							  h = tmp.height;
+							  var ratio = h / w;
+							  //alert(ratio);
+							  if(ratio < 1){
+								w = 128;
+								h = w * ratio;
+							  }
+							  else if(ratio > 1){
+								h = 64;
+								w = h / ratio;
+							  }
+							  //alert(w);
+							  //alert(h);
+							  var canvas = document.getElementById(data.files[0].name); // 取得物件
+							  var ctx = canvas.getContext("2d"); // 取得繪圖環境
+							  ctx.drawImage(tmp, 0, 0, w, h);
+						  };
+						};
+					}
+					
+					//執行 data.submit() 開始上傳
+					$("#start").click(function() {
+						var jqXHR = data.submit();
+					});
+				}
+				else{
+					alert("超過上傳上限");
+				}
+	        },
+
+	        //單一檔案進度
+	       /* progress: function(e, data){
+	            var progress = parseInt(data.loaded / data.total * 100, 10);
+	            data.context.find('.pro').text(progress+"%　　").change();
+	            if(progress == 100){
+	                data.context.removeClass('working');
+	            }
+	        },*/
+
+			//整體進度
+			/*progressall: function (e, data) {
+				var progress = parseInt(data.loaded / data.total * 100, 10);
+				$('#progress .bar').css('width', progress + '%');
+				$('#progress .bar').text(progress + '%');
+			},*/
+
+	        //上傳失敗
+	        fail:function(e, data){
+	            data.context.addClass('error');
+	        },
+
+	        //單一檔案上傳完成
+	        /*done: function (e, data) {
+	        	var tmp = data.context.find('.pro').text();
+	            data.context.find('.pro').text(tmp + data.result.status + "　　");
+	        },*/
+			
+	        //全部上傳完畢
+	        stop: function (e) {
+	        	alert("上傳完畢");
+	        }
+	    });
+	
+		//拖曳成功讓框變色
+		$("#drop").bind({
+		   	dragenter: function() {
+		   		$(this).addClass("active");
+		   	},
+			dragleave: function() {
+		   		$(this).removeClass("active");
+		   	}
+		});	
+	});
+	</script>
+	<body>
+		<div id = "top">
+			<div id = "logo">
+				<img src = "logo_small.png">
+			</div>
+			<div id = "menu">
+				<a href="http://jim46421023.byethost32.com/final/s2s_main.html"><img src = "sale.png"></a>
+				<a href="http://jim46421023.byethost32.com/final/s2s_info.html"><img src = "person.png"></a>
+				<a href="http://jim46421023.byethost32.com/final/logout.php"><img src = "logout.png"></a>
+			</div>
+		</div>
+		<div id = "bar">
+		</div>
+		<div id = "content" align = "center">
+			
+			<div id = "item_info">
+				<div class = "photo" align = "center">
+					商品照片<br>
+					(最多5張，第1張為封面)
+					<div id = "drop">
+						<button id = "photo_btn">
+							<input type="file" id = "fileupload" name = "files" multiple />
+							<span>add photo</span>
+						</button><br><br>
+						或拖曳至此上傳
+					</div>
+				</div><br>
+				<table class = "item" cellspacing="0px">
+				</table>
+				<br>
+				<input type = "submit" id = "start" value = "upload" class = "up_btn">
+				<form action="s2s_upload_photo.php" method="post" style = "display:inline;">
+				<input type = "submit" id = "done" value = "done" class = "up_btn" style = "margin-left:50px;">
+				</form>
+			</div>
+			
+		</div>
+	</body>
+</html>	

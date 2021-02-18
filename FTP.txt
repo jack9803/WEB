@@ -1,9 +1,9 @@
 Cpanel Username: b32_16085765
 Cpanel Password: L46421023
 Your URL: http://jim46421023.byethost32.com or http://www.jim46421023.byethost32.com
-FTP Server : ftp.byethost32.com
-FTP Login : b32_16085765
-FTP Password : L46421023
+FTP Server : 
+FTP Login : 
+FTP Password : 
 MySQL Database Name: MUST CREATE IN CPANEL
 MySQL Username : b32_16085765
 MySQL Password : L46421023
